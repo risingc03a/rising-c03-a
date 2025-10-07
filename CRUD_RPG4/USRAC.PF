@@ -1,0 +1,6 @@
+000100250515     A          R USRACR
+000101250515     A            ID            10A         TEXT('ID')
+000102250520     A            PWD           20A         TEXT('パスワード')
+000103250515     A            ACTIVE         1S 0       TEXT('活性')
+000104250515     A            NOTES         20O         TEXT('備考')
+000105250515     A          K ID

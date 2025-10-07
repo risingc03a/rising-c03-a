@@ -1,0 +1,8 @@
+000100250518     A                                      UNIQUE
+000101250518     A          R CUSTOMERR
+000102250518     A            CUST_ID        5A         TEXT('顧客ID')
+000103250531     A            NAME          20O         TEXT('氏名')
+000104250601     A            EMAIL         30A         TEXT('メール')
+000105250531     A            PHONE         15A         TEXT('電話番号')
+000106250518     A          K CUST_ID
+000107250518

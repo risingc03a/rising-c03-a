@@ -1,0 +1,17 @@
+000100250519        dcl-pr selectSql int(10);
+000101250519          *n varchar(20) const;
+000102250519          *n pointer const;
+000103250519        end-pr;
+000104250519
+000105250519        dcl-pr userCheckSql int(10);
+000106250519          *n varchar(10) const;
+000107250519          *n varchar(20) const;
+000108250519        end-pr;
+000109250519
+000110250519        dcl-pr insertSql1 int(10);
+000111250519          *n pointer const;
+000112250519        end-pr;
+000113250531
+000114250531        dcl-pr SelectCustomer;
+000116250531        end-pr;
+000117250519

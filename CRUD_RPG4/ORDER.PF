@@ -1,0 +1,7 @@
+000100250518     A                                      UNIQUE
+000101250518     A          R ORDERR
+000102250518     A            ORD_ID         5A         TEXT('住所ID')
+000103250518     A            CUST_ID        5A         TEXT('顧客ID')
+000104250518     A            ZIP_CD         8S 0       TEXT('金額')
+000105250518     A            ADR          100O         TEXT('品名')
+000106250518     A          K ORD_ID
