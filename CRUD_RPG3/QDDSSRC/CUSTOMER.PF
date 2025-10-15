@@ -1,0 +1,9 @@
+000100251015     A                                      UNIQUE
+000101251015     A          R CUSTMR
+000102251015     A            CUSTID         5A         TEXT('顧客ID')
+000103251015     A            NAME          20O         TEXT('氏名')
+000104251015     A            EMAIL         30A         TEXT('メール')
+000105251015     A            PHONE         15A         TEXT('電話番号')
+000106251015     A          K CUSTID
+000107251015     A          K NAME
+000108251015

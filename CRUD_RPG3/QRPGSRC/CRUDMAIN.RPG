@@ -1,0 +1,173 @@
+000100251015     H*           Y/                                    1
+000101251015     F*ログインマスタ
+000102251015     FUSRAC   IF  E           K        DISK
+000103251015     F*顧客マスタ
+000104251015     FCUSTOMERUF  E           K        DISK                      A
+000105251015     F*USTOMERO   E           K        DISK
+000106251015     F*ログイン画面
+000107251015     FLOGIND  CF  E                    WORKSTN
+000108251015     F*メインメニュー画面
+000109251015     FMAIND   CF  E                    WORKSTN
+000110251015     F*顧客データ選択画面
+000111251015     FSELECTD CF  E                    WORKSTN
+000112251015     F                                        Z1RRN KSFILE SFL01
+000113251015     C           LOGIN     KLIST
+000114251015     C                     KFLD           ID               : ID
+000115251015     C                     KFLD           PWD              : パスワード
+000116251015     C           CSKEY     KLIST
+000117251015     C                     KFLD           CUSTID           : 顧客ID
+000118251015     C                     KFLD           NAME             : 氏名
+000119251015     C           *INKC     DOWEQ'0'
+000120251015     C           LOOP      TAG
+000121251015     C                     EXSR INIT
+000122251015     C                     EXFMTLOGINR
+000123251015      *F3キー
+000124251015     C           *INKC     IFEQ '1'
+000125251015     C                     LEAVE
+000126251015     C                     ENDIF
+000127251015     C                     EXSR LOGSR
+000128251015     C           *IN90     IFNE '1'
+000129251015     C                     EXFMTMAINR
+000130251015     C           *INKC     IFEQ '1'
+000131251015     C                     LEAVE
+000132251015     C                     ENDIF
+000133251015     C                     EXSR SELSR
+000134251015     C           *IN86     IFEQ '1'
+000135251015     C           *INKC     DOWEQ'0'
+000136251015     C                     EXSR DELAD
+000137251015     C                     EXFMTINSRT
+000138251015     C           *INKD     IFEQ '1'
+000139251015     C                     EXSR ADDSR
+000140251015     C                     ENDIF
+000141251015     C                     SETOF                     86
+000142251015     C                     ENDDO
+000143251015     C                     ENDIF
+000144251015     C           *IN85     IFEQ '1'
+000145251015     C                     EXSR CLRVL
+000146251015     C                     EXSR CLRDSP
+000147251015     C           *INKC     DOWEQ'0'
+000148251015     C                     EXSR SFLIT
+000149251015     C*                    EXSR CLRDSP
+000150251015     C                     EXSR READDB
+000151251015     C                     SETON                     31
+000152251015     C                     EXFMTCTL01
+000153251015     C                     SETOF                     85
+000154251015     C           *INKC     IFEQ '1'
+000155251015     C                     ITER
+000156251015     C                     ENDIF
+000157251015     C*                    SETOF                     85
+000158251015     C                     ENDDO
+000159251015     C*                    EXFMTCTL01
+000160251015     C                     ENDIF
+000161251015     C           *INKC     IFEQ '1'
+000162251015     C                     GOTO LOOP
+000163251015     C                     ENDIF
+000164251015     C                     ENDIF
+000165251015     C                     ENDDO
+000166251015     C                     SETON                         LR
+000167251015     C                     RETRN
+000168251015      *----------------------------------------
+000169251015     C           INIT      BEGSR
+000170251015      *----------------------------------------
+000171251015     C                     MOVEL*BLANK    UID
+000172251015     C                     MOVEL*BLANK    PWD
+000173251015     C                     ENDSR
+000174251015      *----------------------------------------
+000175251015     C           LOGSR     BEGSR
+000176251015      *----------------------------------------
+000177251015     C                     SETOF                         01
+000178251015     C                     MOVELUID       ID
+000179251015     C                     MOVELPWD       PWD
+000180251015     C           LOGIN     CHAINUSRAC                90
+000181251015     C*ログイン失敗
+000182251015     C           *IN90     IFEQ '1'
+000183251015     C                     SETON                     01
+000184251015     C*ログイン成功
+000185251015     C                     ELSE
+000186251015     C                     ENDIF
+000187251015     C                     ENDSR
+000188251015      *----------------------------------------
+000189251015     C           SELSR     BEGSR
+000190251015      *----------------------------------------
+000191251015     C           IN1       IFEQ '1'
+000192251015     C                     SETON                     85
+000193251015     C                     ENDIF
+000194251015     C           IN1       IFEQ '2'
+000195251015     C                     SETON                     86
+000196251015     C                     ENDIF
+000197251015     C                     ENDSR
+000198251015      *----------------------------------------
+000199251015     C           DELAD     BEGSR
+000200251015      *----------------------------------------
+000201251015     C                     MOVEL*BLANK    CUSTID
+000202251015     C                     MOVEL*BLANK    NAME
+000203251015     C                     MOVEL*BLANK    EMAIL
+000204251015     C                     MOVEL*BLANK    PHONE
+000205251015     C                     ENDSR
+000206251015      *----------------------------------------
+000207251015     C           ADDSR     BEGSR
+000208251015      *----------------------------------------
+000209251015     C*                    MOVELUCUID     CUSTID
+000210251015     C*                    MOVELUNAME     NAME
+000211251015     C*                    MOVELUEMAL     EMAIL
+000212251015     C*                    MOVELUPHON     PHONE
+000213251015     C                     WRITECUSTMR                 92
+000214251015     C           *IN92     IFEQ '0'
+000215251015     C                     ELSE
+000216251015     C                     ENDIF
+000217251015     C                     ENDSR
+000218251015      * -----------------------------
+000219251015     C           CLRVL     BEGSR
+000220251015      * -----------------------------
+000221251015     C                     MOVEL*BLANK    CUSTID
+000222251015     C                     MOVEL*BLANK    NAME
+000223251015     C                     MOVEL*BLANK    PHONE
+000224251015     C                     MOVEL*BLANK    EMAIL
+000225251015     C                     ENDSR
+000226251015      * -----------------------------
+000227251015     C           SFLIT     BEGSR
+000228251015      * -----------------------------
+000229251015     C                     SETOF                     30    SFL初期化
+000230251015     C                     WRITECTL01
+000231251015     C                     SETON                     30    SFL表示
+000232251015     C                     Z-ADD*ZERO     Z1RRN
+000233251015     C                     ENDSR
+000234251015      *----------------------------------------
+000235251015     C           CLRDSP    BEGSR
+000236251015      *----------------------------------------
+000237251015     C                     MOVEL*BLANK    Z1SCRE
+000238251015     C                     MOVEL*BLANK    Z1POS
+000239251015     C                     MOVEL*BLANK    NMINP
+000240251015     C                     Z-ADD*ZERO     Z1RRN
+000241251015     C                     ENDSR
+000242251015      *----------------------------------------
+000243251015     C           READDB    BEGSR
+000244251015      *----------------------------------------
+000245251015     C                     MOVELZ1POS     CUSTID
+000246251015     C                     MOVELNMINP     NAME
+000247251015     C           NAME      IFNE *BLANK
+000248251015     C           CSKEY     SETLLCUSTOMER
+000249251015     C                     READECUSTOMER                 66
+000250251015     C                     ENDIF
+000251251015     C           *IN66     IFEQ '0'
+000252251015     C                     MOVELCUSTID    CUSTID
+000253251015     C                     MOVELNAME      NAME
+000254251015     C                     MOVELEMAIL     EMAIL
+000255251015     C                     MOVELPHONE     PHONE
+000256251015     C                     ADD  1         Z1RRN
+000257251015     C                     WRITESFL01
+000258251015     C                     EXFMTCTL01
+000259251015     C                     ENDIF
+000260251015     C           Z1POS     SETLLCUSTOMER
+000261251015     C                     READECUSTOMER                 55
+000262251015     C           *IN55     DOWEQ'0'
+000263251015     C                     MOVELCUSTID    CUSTID
+000264251015     C                     MOVELNAME      NAME
+000265251015     C                     MOVELEMAIL     EMAIL
+000266251015     C                     MOVELPHONE     PHONE
+000267251015     C                     ADD  1         Z1RRN
+000268251015     C                     WRITESFL01
+000269251015     C                     READ CUSTOMER                 55
+000270251015     C                     ENDDO
+000271251015     C                     ENDSR
+000272251015
